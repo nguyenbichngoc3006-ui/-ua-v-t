@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#06152c">
-<title>IQ∞ — Thử thách giải đố</title>
+<title>IQ∞ — Thử thách trí tuệ vô hạn</title>
 <style>
 :root{--bg:#041126;--cyan:#00c8ff;--text:#eaf6ff;--muted:#9db8d8;--red:#ff496b;--green:#21dfb0}
 *{box-sizing:border-box}
@@ -55,4 +55,83 @@ button{font:inherit;cursor:pointer;touch-action:manipulation}
 .reset-choice{background:#4b1028;border-color:#ff496b}
 .skip-choice{background:#06483f;border-color:#21dfb0}
 .result-title{font-size:clamp(2rem,7vw,3.5rem);color:#5ce4ff}
-.result-box{text-align:cen
+.result-box{text-align:center;padding:28px;border:1px solid #1677dc;border-radius:24px;background:#071a35}
+@media(max-width:520px){
+.screen{padding:10px}
+.home-card{border-radius:20px;min-height:calc(100dvh - 20px)}
+.stats{font-size:.88rem;padding:10px 12px}
+.answer{border-radius:15px}
+.letter{flex-basis:36px;width:36px;height:36px}
+.choices{gap:8px}
+.choice{padding:14px 7px}
+}
+@media(orientation:landscape) and (max-height:520px){
+.screen{padding:8px}
+.home-card{min-height:calc(100dvh - 16px);padding:16px}
+.logo{font-size:4rem}
+.subtitle{margin:8px 0 18px}
+.question-card{min-height:80px;padding:12px}
+.answers{grid-template-columns:1fr 1fr}
+.answer{min-height:48px;padding:8px 12px}
+.letter{width:32px;height:32px;flex-basis:32px}
+.screen.quiz-screen{align-items:flex-start}
+.shell{max-width:1000px}
+}
+:fullscreen{background:#041126;overflow:auto}
+</style>
+</head>
+<body>
+<section id="home" class="screen active">
+<div class="shell home-card">
+<div class="logo">IQ∞</div>
+<div class="subtitle">THỬ THÁCH TRÍ TUỆ VÔ HẠN</div>
+<button id="startBtn" class="primary">▶ BẮT ĐẦU</button>
+<p class="home-note">Mỗi câu hỏi là một bước tiến đến trí tuệ vô hạn.<br>Chọn đáp án, giữ 5 mạng và chinh phục thử thách!</p>
+<button id="homeFull" class="small-btn">⛶ Toàn màn hình</button>
+</div>
+</section>
+<section id="quiz" class="screen quiz-screen">
+<div class="shell">
+<div class="topbar">
+<button id="backBtn" class="small-btn">← Trang chủ</button>
+<div class="brand">IQ∞</div>
+<button id="fullBtn" class="small-btn">⛶ Toàn màn hình</button>
+</div>
+<div class="stats">
+<span class="progress" id="progress"></span>
+<span id="lives" class="lives"></span>
+</div>
+<div class="question-card">
+<div>
+<div id="category" class="category"></div>
+<div id="question" class="question"></div>
+</div>
+</div>
+<div id="answers" class="answers"></div>
+<div id="feedback" class="feedback" aria-live="polite"></div>
+<div class="next-row"><button id="nextBtn" class="primary next-btn">Câu tiếp theo →</button></div>
+</div>
+</section>
+<section id="result" class="screen">
+<div class="shell result-box">
+<div class="result-title">IQ∞</div>
+<h2 id="resultHeading">Thử thách kết thúc</h2>
+<p id="resultText"></p>
+<button id="restartBtn" class="primary">↻ Chơi lại từ đầu</button>
+<p><button id="resultHomeBtn" class="small-btn">Trang chủ</button></p>
+</div>
+</section>
+<div id="modalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true">
+<div class="modal">
+<div class="question-mark">?</div>
+<h2>KO BIẾT LÀM</h2>
+<p>Thử vận may nhé!<br><b>50% RESET · 50% SKIP</b></p>
+<div class="choices">
+<button id="resetChoice" class="choice reset-choice"><strong>50%</strong>↻ RESET<small>Bắt đầu lại từ câu đầu tiên</small></button>
+<button id="skipChoice" class="choice skip-choice"><strong>50%</strong>⏭ SKIP<small>Bỏ qua câu này, giữ nguyên số mạng</small></button>
+</div>
+<p id="coinResult" aria-live="polite"></p>
+<button id="closeModal" class="small-btn">Đóng</button>
+</div>
+</div>
+<script>
